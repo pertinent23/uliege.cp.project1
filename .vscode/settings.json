@@ -2,6 +2,7 @@
     "files.associations": {
         "*.html": "html",
         "*.rmd": "markdown",
-        "somme.h": "c"
+        "somme.h": "c",
+        "stdio.h": "c"
     }
 }
