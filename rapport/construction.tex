@@ -14,20 +14,98 @@
 \section{Approche Constructive}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{lstlisting}[caption={Un programme tout simple}]
-int main(void)
+\begin{lstlisting}[caption={somme.c}]
+//$N=N_0>0 \land T = T_0$
+int somme(int *T, int N,  int *min_pos, int *max_pos)
 {
-    // Les commandes Latex sont permises dans les commentaires sur une ligne. Exemple : $x_i \leq a ^b$
-    printf("Bonjour tout le monde !");
-    /*
-    Dans les commentaires sur plusieurs lignes, elles doivent être entourées
-    de symboles définis par l'option « escapeinside » de \lstset
-    (>\coms{$\sum_{i = 1}^N 1 = N$}<)
-    La commande « \coms » permet de colorer correctement le code latex ajouté.
-    Les accents et tous les autres diacritiques sont permis : àÀçÇéÉèÈêÊœŒ...
-    */
-    return 1; (>\label{code:ret}<)
+    //$N=N_0>0 \land T = T_0$
+    assert(N>0 && T != NULL && min_pos != NULL && max_pos != NULL);
+    //$N=N_0>0 \land T = T_0$
+
+    int resultat, tmp1, tmp2, i;
+    //$N=N_0>0 \land T = T_0$
+
+    if (N==1) 
+        //$N=N_0>0 \land T = T_0 \land T[min\_pos]=\min{T} \land T[max\_pos]=\max{T}$
+        return T[*min_pos = *max_pos = 0];
+    
+    //$N=N_0>0 \land T = T_0$
+    if (T[0] > T[1])
+        *min_pos = 1 + (*max_pos = 0);
+        //$N=N_0>0 \land T = T_0 \land T[min\_pos]=\min{T} \land T[max\_pos]=\max{T}$
+    else
+        *max_pos = 1 + (*min_pos = 0);
+        //$N=N_0>0 \land T = T_0 \land T[min\_pos]=\min{T} \land T[max\_pos]=\max{T}$
+    
+    //$\rightarrow N=N_0>0 \land T = T_0 \land T[min\_pos]=\min{T} \land T[max\_pos]=\max{T}$
+
+    resultat = T[0] + T[1];
+    //$N=N_0>0 \land T = T_0 \land T[min\_pos]=\min{T} \land T[max\_pos]=\max{T} \land resultat = \sum_{k=min\_pos}^{max\_pos}(T[k])$
+    tmp1 = T[0];
+    //$tmp1=\sum_{}^{\min(min\_pos, max\_pos)}(T[.])$
+    //$N=N_0>0 \land T = T_0 \land T[min\_pos]=\min{T} \land T[max\_pos]=\max{T} \land resultat = \sum_{k=min\_pos}^{max\_pos}(T[k])$
+    tmp2 = 0;
+    //$tmp2=\sum_{\max(min\_pos, max\_pos)}^{N-1}(T[.])$
+    //$N=N_0>0 \land T = T_0 \land T[min\_pos]=\min{T} \land T[max\_pos]=\max{T} \land resultat = \sum_{k=min\_pos}^{max\_pos}(T[k])$
+    i = 2;
+    //$INV \overset{}{\equiv} N=N_0>0 \land T = T_0 \land T[min\_pos]=\min{T} \land T[max\_pos]=\max{T} $
+    //$\land resultat = \sum_{k=min\_pos}^{max\_pos}(T[k]) \land 1 \le i \le N$
+
+    while(i<N) 
+    {
+        //$INV \overset{}{\equiv} N=N_0>0 \land T = T_0 \land T[min\_pos]=\min{T} \land T[max\_pos]=\max{T} $
+        //$\land resultat = \sum_{k=min\_pos}^{max\_pos}(T[k]) \land 1 \le i \le N-1$
+        if(T[i]<T[*min_pos])
+        {
+            if (*min_pos<*max_pos) 
+                resultat -= tmp1;
+                //$resultat = \sum_{k=min\_pos}^{max\_pos}(T[k]$
+            
+            //$T[min\_pos]=\min{T}$
+            *min_pos = i;
+            //$T[min\_pos]=\min{T}$
+            tmp1 = resultat;
+            //$tmp1=\sum_{}^{\min(min\_pos, max\_pos)}(T[.])$
+            //$tmp2=\sum_{\max(min\_pos, max\_pos)}^{i-1}(T[.])$
+            tmp2 = 0;
+            //$tmp2=\sum_{\max(min\_pos, max\_pos)}^{i}(T[.])$
+        }
+        else if(T[i]>T[*max_pos])
+        {
+            if (*max_pos<*min_pos) 
+                resultat -= tmp1;
+                //$resultat = \sum_{k=min\_pos}^{max\_pos}(T[k]$
+            
+            //$T[max\_pos]=\max{T}$
+            *max_pos = i;
+            //$T[max\_pos]=\max{T}$
+            tmp1 = resultat;
+            //$tmp1=\sum_{}^{\min(min\_pos, max\_pos)}(T[.])$
+            //$tmp2=\sum_{\max(min\_pos, max\_pos)}^{i-1}(T[.])$
+            tmp2 = 0;
+            //$tmp2=\sum_{\max(min\_pos, max\_pos)}^{i}(T[.])$
+        }
+        else 
+        {
+            //$tmp2=\sum_{\max(min\_pos, max\_pos)}^{i-1}(T[.])$
+            tmp2 += T[i];
+            //$tmp2=\sum_{\max(min\_pos, max\_pos)}^{i}(T[.])$
+        }
+        
+        resultat += T[i];
+        //$resultat = \sum_{k=min\_pos}^{max\_pos}(T[k]$
+        //$1 \le i \le N-1$
+        i++;
+        //$1 \le i \le N$
+    }
+
+    //$INV \overset{}{\equiv} N=N_0>0 \land T = T_0 \land T[min\_pos]=\min{T} \land T[max\_pos]=\max{T} $
+    //$\land resultat = \sum_{k=max\_pos}^{N-1}(T[k]) \land 1 \le i \le N$
+
+    return resultat - tmp2;
+    //$T=T_0 \land 0 \le min\_pos \le max\_pos \le N-1 \land T[min\_pos]=\min{T} \land T[max\_pos]=\max{T}$
 }
+//$T=T_0 \land 0 \le min\_pos \le max\_pos \le N-1 \land T[min\_pos]=\min{T} \land T[max\_pos]=\max{T}$
 \end{lstlisting}
 
-Il est possible de faire référence à la ligne \ref{code:ret} de l'extrait de code.
+%Il est possible de faire référence à la ligne \ref{code:ret} de l'extrait de code.

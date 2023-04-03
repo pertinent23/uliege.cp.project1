@@ -8,3 +8,63 @@
 
 \section{Définition et Analyse du Problème}\label{analyse}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Input:}
+
+\begingroup
+Le nombre d'éléments à analyser:
+\endgroup
+\begin{lstlisting}
+int N;
+\end{lstlisting}
+
+\vspace{0.3cm}
+
+\begingroup
+Un tableau d'entier de:
+\endgroup
+\begin{lstlisting}
+int T[N];
+\end{lstlisting}
+
+\subsection{Output:}
+\quad 
+cette fonction retourne la somme des éléments du tableau entre la position du minimum \emph{$min\_pos$} et la position 
+du maximun \emph{$max\_pos$}.
+\par
+Ainsi soient:
+$a=\min(min\_pos, max\_pos) \land b=\max(min\_pos, max\_pos)$
+\par
+$somme=\sum_{i=a}^{b}(T[i]) \land 0 \le a \le b < N$
+
+\subsection{Objets Utilisés:}
+
+\begingroup
+$min\_pos$: Contient l'indice de $\min{T}$
+\endgroup
+\begin{lstlisting}
+int min_pos;
+\end{lstlisting}
+
+\begingroup
+$max\_pos$: Contient l'indice de $\max{T}$
+\endgroup
+\begin{lstlisting}
+int max_pos;
+\end{lstlisting}
+
+\begingroup
+$resultat$: Contient la somme des élément du tableau $\max{T}$
+\endgroup
+\begin{lstlisting}
+int resultat;
+\end{lstlisting}
+
+\subsection{Sous-Problème:}
+Vu que le l'objectif de la fonction est d'écrire un programme de complexité $O(N)$,
+on aura un seul sous-problème qui va consister en:
+\begin{itemize}
+    \item Determiner la position du maximun
+    \item Determiner la position du minimun
+    \item Calculer la somme des éléments du tableau entre le maximun et le minimum
+\end{itemize}

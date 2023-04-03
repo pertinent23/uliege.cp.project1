@@ -4,3 +4,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Specifications}\label{specifications}
 %%%%%%%%%%%%%%%%%%%%%%%%
+
+\begingroup
+/**
+\par
+\quad* @Pre: $N=N_0>0 \land T = T_0$
+\par
+\quad* @post: $T=T_0 \land 0 \le min\_pos \le max\_pos \le N-1 \land T[min\_pos]=\min{T} \land T[max\_pos]=\max{T}$
+\par
+*/
+\endgroup
+\begin{lstlisting}
+    int somme(int *T, int N,  int *min_pos, int *max_pos);
+\end{lstlisting}

@@ -5,3 +5,177 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Complexité}\label{complexite}
 %%%%%%%%%%%%%%%%%%%%
+
+\par
+determinons la complexité de notre code:
+
+\raggedright\par
+
+On peut diviser notre code en 05 parties:
+\begin{itemize}
+
+\item De la ligne 1\textminus2: \textbf{$P_a$}
+\begin{lstlisting}
+assert(N>0 && T != NULL && min_pos != NULL && max_pos != NULL);
+int resultat, tmp1, tmp2, i;
+\end{lstlisting}
+
+\item De la ligne 4\textminus9: \textbf{$P_b$}
+\begin{lstlisting}
+if (N==1) 
+    return T[*min_pos = *max_pos = 0];
+elif (T[0] > T[1])
+    *min_pos = 1 + (*max_pos = 0);
+else
+    *max_pos = 1 + (*min_pos = 0);
+\end{lstlisting}
+
+\item De la ligne 11\textminus14: \textbf{$P_c$}
+\begin{lstlisting}
+resultat = T[0] + T[1];
+tmp1 = T[0];
+tmp2 = 0;
+i = 2;
+\end{lstlisting}
+
+\item De la ligne 16\textminus43: \textbf{$P_d$}
+\begin{lstlisting}
+while(i<N) 
+{
+    if(T[i]<T[*min_pos])
+    {
+        if (*min_pos<*max_pos) 
+            resultat -= tmp1;
+            
+        *min_pos = i;
+        tmp1 = resultat;
+        tmp2 = 0;
+    }
+    else if(T[i]>T[*max_pos])
+    {
+        if (*max_pos<*min_pos) 
+            resultat -= tmp1;
+        
+        *max_pos = i;
+        tmp1 = resultat;
+        tmp2 = 0;
+    }
+    else 
+    {
+        tmp2 += T[i];
+    }
+    
+    resultat += T[i];
+    i++;
+}
+\end{lstlisting}
+
+\item De la ligne 45: \textbf{$P_e$}
+\begin{lstlisting}
+return resultat - tmp2;
+\end{lstlisting}
+
+\end{itemize}
+
+\subsection[c]{$P_a$.}
+
+$T(.)=1$
+
+\subsection[c]{$P_b$.}
+
+Ici la complexité est égale au maximun des complexités de chaque branche c'est à dire: $T(.)=1$
+
+\subsection[c]{$P_c$.}
+
+Ici toutes les instructions sont élémenetaires, ainsi: $T(.)=1$
+
+\subsection[c]{$P_d$.}
+
+Ici le code peut être diviser en quatre partie:
+
+\begin{itemize}
+
+\item De la ligne 19 à 25: $P_d1$ 
+\begin{lstlisting}
+if(T[i]<T[*min_pos])
+{
+    if (*min_pos<*max_pos) 
+        resultat -= tmp1;
+        
+    *min_pos = i;
+    tmp1 = resultat;
+    tmp2 = 0;
+}
+\end{lstlisting}
+
+\item De la ligne 29 à 34: $P_d2$ 
+\begin{lstlisting}
+else if(T[i]>T[*max_pos])
+{
+    if (*max_pos<*min_pos) 
+        resultat -= tmp1;
+    
+    *max_pos = i;
+    tmp1 = resultat;
+    tmp2 = 0;
+}
+\end{lstlisting}
+
+\item De la ligne 38 à 38: $P_d3$ 
+\begin{lstlisting}
+else 
+{
+    tmp2 += T[i];
+}
+\end{lstlisting}
+
+\item De la ligne 41 à 42: $P_d4$ 
+\begin{lstlisting}
+resultat += T[i];
+i++;
+\end{lstlisting}
+
+\end{itemize}
+
+\subsubsection{$P_d1$}
+
+Ici la complexité est $T(.)=1$
+
+\subsubsection{$P_d2$}
+
+Ici la complexité est $T(.)=1$
+
+
+\subsubsection{$P_d3$}
+
+Ici la complexité est $T(.)=1$
+
+
+\subsubsection{$P_d4$}
+
+Ici la complexité est $T(.)=1$
+
+
+\par 
+\par
+
+Ainsi la complexité de notre programme est $T_d(.) = \sum_{i=1}^{N}(\max(T_d1(.), T_d2(.), T_d3(.)) + T_d4(.))$. 
+\par
+\par
+Ainsi $T_d(.)=2N$
+
+\subsection[c]{$P_e$.}
+
+Enfin $T(.)=1$
+
+\vspace{1cm}
+$T(N) = T_a(.)+T_b(.)+T_c(.)+T_d(.) =3 + 2N$
+
+\vspace{0.3cm}
+
+$T \in O(N) \leftrightarrow\exists n_0 \in\emph{N}, c \in\emph{R}^+: \forall n>n_0:T(n)\leq c*n$
+
+Ainsi pour $c \geq 4, T \in O(N)$.
+\par
+\vspace{0.3cm} 
+La complexite de notre code est donc de: \textbf{$O(N)$}
