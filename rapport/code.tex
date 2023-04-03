@@ -5,3 +5,80 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Code Complet}\label{code}
 %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{lstlisting}[caption={somme.h}]
+/**
+ * \file somme.h
+ * \brief Header pour la somme min-max d'un tableau
+ * \author HEUBA BATOMEN Franck Duval, Bilali Assalni
+ * \version 0.1
+ * \date 03/04/2023
+ *
+*/
+
+#ifndef __SOMME__
+#define __SOMME__
+
+/*
+ * @pre: N=N0>0 && T = T0
+ * @post: T=T0 && N = N0 && T[min_pos]=min(T) && T[max_pos]=max(T) 
+ * && somme = min(min_pos, max_pos) + T[min(min_pos, max_pos) + 1] 
+ * + ... + max(min_pos, max_pos)  
+*/
+int somme(int *T, int N,  int *min_pos, int *max_pos);
+
+#endif
+\end{lstlisting}
+
+\begin{lstlisting}[caption={somme.c}]
+int somme(int *T, int N,  int *min_pos, int *max_pos)
+{
+    assert(N>0 && T != NULL && min_pos != NULL && max_pos != NULL);
+
+    int resultat, tmp1, tmp2, i;
+
+    if (N==1) 
+        return T[*min_pos = *max_pos = 0];
+
+    if (T[0] > T[1])
+        *min_pos = 1 + (*max_pos = 0);
+    else
+        *max_pos = 1 + (*min_pos = 0);
+
+    resultat = T[0] + T[1];
+    tmp1 = T[0];
+    tmp2 = 0;
+    i = 2;
+
+    while(i<N) 
+    {
+        if(T[i]<T[*min_pos])
+        {
+            if (*min_pos<*max_pos) 
+                resultat -= tmp1;
+                
+            *min_pos = i;
+            tmp1 = resultat;
+            tmp2 = 0;
+        }
+        else if(T[i]>T[*max_pos])
+        {
+            if (*max_pos<*min_pos) 
+                resultat -= tmp1;
+            
+            *max_pos = i;
+            tmp1 = resultat;
+            tmp2 = 0;
+        }
+        else 
+        {
+            tmp2 += T[i];
+        }
+        
+        resultat += T[i];
+        i++;
+    }
+
+    return resultat - tmp2;
+}
+\end{lstlisting}

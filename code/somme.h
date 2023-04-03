@@ -3,7 +3,7 @@
  * \brief Header pour la somme min-max d'un tableau
  * \author HEUBA BATOMEN Franck Duval, Bilali Assalni
  * \version 0.1
- * \date 03/12/2022
+ * \date 03/04/2023
  *
  * ImplÃŠmente la somme min-max d'un tableau T.
 */
